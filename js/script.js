@@ -3,7 +3,7 @@ const headerInput = document.querySelector('.header-input');
 const todoList = document.querySelector('.todo-list');
 const todoCompleted = document.querySelector('.todo-completed');
 
-const todoData = []
+let todoData = []
 
 const render = function () {
     todoList.innerHTML = ''
@@ -32,9 +32,22 @@ const render = function () {
         })
 
         li.querySelector('.todo-remove').addEventListener('click', function() {
+            todoData.splice(todoData.indexOf(item), 1)
             render()
         })
     })
+
+    const pushLocalStorage = function () {
+        localStorage.setItem('data', JSON.stringify(todoData))
+    }
+
+    pushLocalStorage();
+}
+
+const getLocalStorage = function () {
+    let todoDataLocal = JSON.parse(localStorage.getItem('data')) || []
+    todoData.push(...todoDataLocal)
+    render()
 }
 
 todoControl.addEventListener('submit', function (event) {
@@ -54,3 +67,5 @@ todoControl.addEventListener('submit', function (event) {
         render()
     }
 })
+
+getLocalStorage();
