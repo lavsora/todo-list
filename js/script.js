@@ -37,11 +37,7 @@ const render = function () {
         })
     })
 
-    const pushLocalStorage = function () {
-        localStorage.setItem('data', JSON.stringify(todoData))
-    }
-
-    pushLocalStorage();
+    localStorage.setItem('data', JSON.stringify(todoData))
 }
 
 const getLocalStorage = function () {
