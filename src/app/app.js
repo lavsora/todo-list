@@ -39,7 +39,7 @@ class App extends Component {
     const { data, maxId } = this.state
 
     this.setState({
-      data: [...data, { id: maxId, description: description, done: false, status: 'active', createDate: new Date() }],
+      data: [...data, { id: maxId, description, done: false, status: 'active', createDate: new Date() }],
       maxId: maxId + Math.floor(Math.random() * 1001),
     })
   }

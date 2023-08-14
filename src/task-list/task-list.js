@@ -1,10 +1,10 @@
-import { Component } from 'react'
+import { PureComponent } from 'react'
 
 import Task from '../task'
 
 import './task-list.css'
 
-class TaskList extends Component {
+class TaskList extends PureComponent {
   render() {
     const { data, onDeleted, onToggleStatus, onEdit, onEditDescription } = this.props
 

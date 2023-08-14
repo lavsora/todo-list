@@ -5,6 +5,7 @@
   },
   "ignorePatterns": ["node_modules", "dist", "build"],
   "extends": [
+    "airbnb",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
@@ -52,7 +53,19 @@
         "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
         "newlines-between": "always"
       }
-    ]
+    ],
+    "react/state-in-constructor": [1, "never"],
+    "react/prefer-stateless-function": [2, { "ignorePureComponents": true }],
+    "react/jsx-props-no-spreading": [
+      2,
+      {
+        "custom": "ignore"
+      }
+    ],
+    "react/destructuring-assignment": 0,
+    "class-methods-use-this": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "jsx-a11y/control-has-associated-label": 0
   },
   "settings": {
     "react": {

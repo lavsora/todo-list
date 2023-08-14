@@ -40,17 +40,11 @@ class Task extends Component {
             <span className="description">{description}</span>
             <span className="created">created {formatDistanceToNow(createDate, { includeSeconds: true })} ago</span>
           </label>
-          <button className="icon icon-edit" onClick={onEdit}></button>
-          <button className="icon icon-destroy" onClick={onDeleted}></button>
+          <button type="button" className="icon icon-edit" onClick={onEdit} />
+          <button type="button" className="icon icon-destroy" onClick={onDeleted} />
         </div>
         <form onSubmit={this.onSubmitEditDescription}>
-          <input
-            type="text"
-            className="edit"
-            onChange={this.onEditDescription}
-            value={this.state.editDescription}
-            autoFocus
-          />
+          <input type="text" className="edit" onChange={this.onEditDescription} value={this.state.editDescription} />
         </form>
       </>
     )

@@ -1,8 +1,8 @@
-import { Component } from 'react'
+import { PureComponent } from 'react'
 
 import './tasks-filter.css'
 
-class TasksFilter extends Component {
+class TasksFilter extends PureComponent {
   render() {
     const { filter, onFilter } = this.props
 
@@ -11,7 +11,7 @@ class TasksFilter extends Component {
     const buttons = buttonsData.map(({ label }) => {
       return (
         <li key={label}>
-          <button className={label === filter ? 'selected' : ''} onClick={() => onFilter(label)}>
+          <button type="button" className={label === filter ? 'selected' : ''} onClick={() => onFilter(label)}>
             {label}
           </button>
         </li>
