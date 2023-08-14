@@ -7,8 +7,8 @@
   "extends": [
     "airbnb",
     "eslint:recommended",
+    "prettier",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
@@ -21,7 +21,7 @@
     "sourceType": "module",
     "requireConfigFile": false
   },
-  "plugins": ["react", "prettier", "import"],
+  "plugins": ["react", "import"],
   "rules": {
     "no-console": 1,
     "import/namespace": 0,
@@ -29,7 +29,6 @@
     "import/no-named-as-default": 0,
     "import/no-named-as-default-member": 0,
     "indent": ["error", 2, { "SwitchCase": 1 }],
-    "prettier/prettier": "error",
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "never"],

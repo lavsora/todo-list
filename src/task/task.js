@@ -38,7 +38,10 @@ class Task extends Component {
           <input className="toggle" type="checkbox" checked={done} onChange={onToggleStatus} />
           <label>
             <span className="description">{description}</span>
-            <span className="created">created {formatDistanceToNow(createDate, { includeSeconds: true })} ago</span>
+            <span className="created">
+              created
+              {formatDistanceToNow(createDate, { includeSeconds: true })} ago
+            </span>
           </label>
           <button type="button" className="icon icon-edit" onClick={onEdit} />
           <button type="button" className="icon icon-destroy" onClick={onDeleted} />

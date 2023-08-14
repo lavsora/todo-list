@@ -9,11 +9,41 @@ import './app.css'
 class App extends Component {
   state = {
     data: [
-      { id: 1, description: 'Completed task', done: true, status: 'completed', createDate: new Date() },
-      { id: 2, description: 'Editing task', done: false, status: 'active', createDate: new Date() },
-      { id: 3, description: 'Active task', done: false, status: 'active', createDate: new Date() },
-      { id: 4, description: 'Drink Coffee', done: true, status: 'completed', createDate: new Date() },
-      { id: 5, description: 'Make Awesome App', done: false, status: 'active', createDate: new Date() },
+      {
+        id: 1,
+        description: 'Completed task',
+        done: true,
+        status: 'completed',
+        createDate: new Date(),
+      },
+      {
+        id: 2,
+        description: 'Editing task',
+        done: false,
+        status: 'active',
+        createDate: new Date(),
+      },
+      {
+        id: 3,
+        description: 'Active task',
+        done: false,
+        status: 'active',
+        createDate: new Date(),
+      },
+      {
+        id: 4,
+        description: 'Drink Coffee',
+        done: true,
+        status: 'completed',
+        createDate: new Date(),
+      },
+      {
+        id: 5,
+        description: 'Make Awesome App',
+        done: false,
+        status: 'active',
+        createDate: new Date(),
+      },
     ],
     maxId: Math.floor(Math.random() * 1001),
     filter: 'All',
@@ -39,7 +69,16 @@ class App extends Component {
     const { data, maxId } = this.state
 
     this.setState({
-      data: [...data, { id: maxId, description, done: false, status: 'active', createDate: new Date() }],
+      data: [
+        ...data,
+        {
+          id: maxId,
+          description,
+          done: false,
+          status: 'active',
+          createDate: new Date(),
+        },
+      ],
       maxId: maxId + Math.floor(Math.random() * 1001),
     })
   }
@@ -107,7 +146,12 @@ class App extends Component {
     this.setState(({ data }) => ({
       data: data.map((item) => {
         if (item.id === id) {
-          return { ...item, description: editDescription, done: false, status: 'active ' }
+          return {
+            ...item,
+            description: editDescription,
+            done: false,
+            status: 'active ',
+          }
         }
 
         return item
