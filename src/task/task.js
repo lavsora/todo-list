@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 
+import TaskTimer from '../task-timer'
+
 class Task extends Component {
   state = {
     editDescription: this.props.description,
@@ -37,7 +39,10 @@ class Task extends Component {
         <div className="view">
           <input className="toggle" type="checkbox" checked={done} onChange={onToggleStatus} />
           <label>
-            <span className="description">{description}</span>
+            <span className="title">{description}</span>
+            <span className="description">
+              <TaskTimer />
+            </span>
             <span className="created">
               created
               {formatDistanceToNow(createDate, { includeSeconds: true })} ago

@@ -34,13 +34,15 @@ class NewTaskForm extends Component {
     return (
       <header className="header">
         <h1>todos</h1>
-        <form onSubmit={this.onSubmitDescription}>
+        <form className="new-todo-form" onSubmit={this.onSubmitDescription}>
           <input
             className="new-todo"
             placeholder="What needs to be done?"
             onChange={this.onChangeDescription}
             value={this.state.description}
           />
+          <input className="new-todo-form__timer" placeholder="Min" />
+          <input className="new-todo-form__timer" placeholder="Sec" />
         </form>
       </header>
     )
