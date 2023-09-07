@@ -1,7 +1,5 @@
 import { PureComponent } from 'react'
 
-import './task-timer.css'
-
 class TaskTimer extends PureComponent {
   render() {
     return (
