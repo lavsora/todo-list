@@ -5,27 +5,30 @@ import './new-task-form.css'
 class NewTaskForm extends Component {
   state = {
     description: '',
+    min: '',
+    sec: '',
   }
 
-  onChangeDescription = (e) => {
+  onChangeInput = (e) => {
     this.setState({
-      description: e.target.value,
+      [e.target.name]: e.target.value,
     })
   }
 
   onSubmitDescription = (e) => {
     e.preventDefault()
 
-    let addDescription = this.state.description
+    this.setState(({ description }) => ({
+      description: description.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''),
+    }))
 
-    addDescription = addDescription.replace(/\s{2,}/g, ' ')
-    addDescription = addDescription.replace(/^[\s]+|[\s]+$/g, '')
-
-    if (addDescription.replace(/^[\s]+|[\s]+$/g, '')) {
-      this.props.onAdded(addDescription)
+    if (this.state.description.trim() !== '') {
+      this.props.onAdded(this.state)
 
       this.setState({
         description: '',
+        min: '',
+        sec: '',
       })
     }
   }
@@ -37,12 +40,32 @@ class NewTaskForm extends Component {
         <form className="new-todo-form" onSubmit={this.onSubmitDescription}>
           <input
             className="new-todo"
+            name="description"
             placeholder="What needs to be done?"
-            onChange={this.onChangeDescription}
+            onChange={this.onChangeInput}
             value={this.state.description}
+            required
           />
-          <input className="new-todo-form__timer" placeholder="Min" />
-          <input className="new-todo-form__timer" placeholder="Sec" />
+          <input
+            className="new-todo-form__timer"
+            name="min"
+            value={this.state.min}
+            onChange={this.onChangeInput}
+            pattern="^(?:[1-9]|[1-5][0-9]|60)$"
+            placeholder="Min"
+            required
+          />
+          <input
+            className="new-todo-form__timer"
+            name="sec"
+            value={this.state.sec}
+            onChange={this.onChangeInput}
+            pattern="^(?:[1-9]|[1-5][0-9]|60)$"
+            placeholder="Sec"
+            required
+          />
+
+          <button type="submit" />
         </form>
       </header>
     )

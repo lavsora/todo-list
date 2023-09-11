@@ -6,7 +6,7 @@ import './task-list.css'
 
 class TaskList extends PureComponent {
   render() {
-    const { data, onDeleted, onToggleStatus, onEdit, onEditDescription } = this.props
+    const { data, onDeleted, onToggleStatus, onEdit, onEditDescription, onToggleTimer } = this.props
 
     const items = data.map((item) => {
       const { id, status, ...itemProps } = item
@@ -19,6 +19,7 @@ class TaskList extends PureComponent {
             onToggleStatus={() => onToggleStatus(id)}
             onEdit={() => onEdit(id)}
             onEditDescription={(editDescription) => onEditDescription(editDescription, id)}
+            onToggleTimer={() => onToggleTimer(id)}
           />
         </li>
       )

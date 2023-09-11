@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 
 import NewTaskForm from '../new-task-form'
 import TaskList from '../task-list'
@@ -15,6 +15,8 @@ class App extends Component {
         done: true,
         status: 'completed',
         createDate: new Date(),
+        playTimer: false,
+        milisec: 3550000,
       },
       {
         id: 2,
@@ -22,6 +24,8 @@ class App extends Component {
         done: false,
         status: 'active',
         createDate: new Date(),
+        playTimer: false,
+        milisec: 350000,
       },
       {
         id: 3,
@@ -29,6 +33,8 @@ class App extends Component {
         done: false,
         status: 'active',
         createDate: new Date(),
+        playTimer: false,
+        milisec: 168000,
       },
       {
         id: 4,
@@ -36,6 +42,8 @@ class App extends Component {
         done: true,
         status: 'completed',
         createDate: new Date(),
+        playTimer: false,
+        milisec: 720000,
       },
       {
         id: 5,
@@ -43,16 +51,24 @@ class App extends Component {
         done: false,
         status: 'active',
         createDate: new Date(),
+        playTimer: false,
+        milisec: 3000,
       },
     ],
     maxId: Math.floor(Math.random() * 1001),
     filter: 'All',
   }
 
+  intervalsRef = createRef({})
+
   componentDidMount() {
     document.addEventListener('keydown', this.closeEdit)
     document.addEventListener('mousedown', this.closeEdit)
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+
+  // }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.closeEdit)
@@ -65,7 +81,7 @@ class App extends Component {
     }))
   }
 
-  addItem = (description) => {
+  addItem = ({ description, min, sec }) => {
     const { data, maxId } = this.state
 
     this.setState({
@@ -77,6 +93,8 @@ class App extends Component {
           done: false,
           status: 'active',
           createDate: new Date(),
+          playTimer: false,
+          milisec: (+min * 60 + +sec) * 1000,
         },
       ],
       maxId: maxId + Math.floor(Math.random() * 1001),
@@ -159,6 +177,53 @@ class App extends Component {
     }))
   }
 
+  toggleTimer = (id) => {
+    // eslint-disable-next-line
+    const updatedTimer = this.state.data.map((item) => {
+      if (item.id !== id) return item
+
+      clearInterval(this.intervalsRef[id])
+
+      delete this.intervalsRef[id]
+
+      if (!item.playTimer) {
+        const itemInterval = setInterval(() => {
+          this.setState(({ data }) => ({
+            data: data.map((task) => {
+              if (task.id === id) {
+                if (task.milisec - 1000 <= 0) {
+                  clearInterval(itemInterval)
+
+                  return {
+                    ...task,
+                    milisec: 0,
+                    playTimer: false,
+                    done: true,
+                    status: 'completed',
+                  }
+                }
+                return {
+                  ...task,
+                  milisec: task.milisec - 1000,
+                }
+              }
+
+              return task
+            }),
+          }))
+        }, 1000)
+
+        this.intervalsRef = { [id]: itemInterval, ...this.intervalsRef }
+      }
+
+      return { ...item, playTimer: !item.playTimer }
+    })
+
+    this.setState({
+      data: updatedTimer,
+    })
+  }
+
   render() {
     const { data, filter } = this.state
     const visibleData = this.filterPost(data, filter)
@@ -171,6 +236,7 @@ class App extends Component {
             data={visibleData}
             onDeleted={this.removeItem}
             onToggleStatus={this.toggleStatus}
+            onToggleTimer={this.toggleTimer}
             onEdit={this.editItem}
             onKeyEdit={this.keyPressEdit}
             onEditDescription={this.editDescriptionItem}

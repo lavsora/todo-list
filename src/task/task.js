@@ -17,22 +17,18 @@ class Task extends Component {
   onSubmitEditDescription = (e) => {
     e.preventDefault()
 
-    let editText = this.state.editDescription
+    this.setState(({ editDescription }) => ({
+      editDescription: editDescription.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''),
+    }))
 
-    editText = editText.replace(/\s{2,}/g, ' ')
-    editText = editText.replace(/^[\s]+|[\s]+$/g, '')
-
-    if (editText.replace(/^[\s]+|[\s]+$/g, '')) {
-      this.props.onEditDescription(editText)
-
-      this.setState({
-        editDescription: editText,
-      })
+    if (this.state.editDescription.trim() !== '') {
+      this.props.onEditDescription(this.state.editDescription)
     }
   }
 
   render() {
-    const { description, done, onDeleted, onToggleStatus, createDate, onEdit } = this.props
+    const { description, done, playTimer, milisec, onDeleted, onToggleStatus, createDate, onEdit, onToggleTimer } =
+      this.props
 
     return (
       <>
@@ -41,12 +37,9 @@ class Task extends Component {
           <label>
             <span className="title">{description}</span>
             <span className="description">
-              <TaskTimer />
+              <TaskTimer milisec={milisec} playTimer={playTimer} onToggleTimer={onToggleTimer} />
             </span>
-            <span className="created">
-              created
-              {formatDistanceToNow(createDate, { includeSeconds: true })} ago
-            </span>
+            <span className="created">created {formatDistanceToNow(createDate, { includeSeconds: true })} ago</span>
           </label>
           <button type="button" className="icon icon-edit" onClick={onEdit} />
           <button type="button" className="icon icon-destroy" onClick={onDeleted} />

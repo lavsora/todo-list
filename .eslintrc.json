@@ -27,6 +27,7 @@
     "semi": ["error", "never"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
+    "react/jsx-no-useless-fragment": "off",
     "import/no-unresolved": [
       2,
       {
