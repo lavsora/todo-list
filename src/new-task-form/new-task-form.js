@@ -51,7 +51,7 @@ class NewTaskForm extends Component {
             name="min"
             value={this.state.min}
             onChange={this.onChangeInput}
-            pattern="^(?:[1-9]|[1-5][0-9]|60)$"
+            pattern="^(?:[0-9]|[0-5][0-9]|60)$"
             placeholder="Min"
             required
           />

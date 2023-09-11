@@ -11,7 +11,7 @@ class TaskTimer extends Component {
   }
 
   render() {
-    const { playTimer, milisec } = this.props
+    const { playTimer, milisec, done } = this.props
     const duration = intervalToDuration({ start: 0, end: milisec })
     const time = [duration.hours, String(duration.minutes).padStart(2, '0'), String(duration.seconds).padStart(2, '0')]
       .filter(Boolean)
@@ -19,7 +19,7 @@ class TaskTimer extends Component {
 
     return (
       <>
-        <button type="button" onClick={this.captureEvent}>
+        <button type="button" onClick={this.captureEvent} disabled={done}>
           <Icon playTimer={playTimer} />
         </button>
         <span>{time}</span>

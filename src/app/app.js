@@ -66,10 +66,6 @@ class App extends Component {
     document.addEventListener('mousedown', this.closeEdit)
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-
-  // }
-
   componentWillUnmount() {
     document.removeEventListener('keydown', this.closeEdit)
     document.removeEventListener('mousedown', this.closeEdit)

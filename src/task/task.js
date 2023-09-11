@@ -37,7 +37,7 @@ class Task extends Component {
           <label>
             <span className="title">{description}</span>
             <span className="description">
-              <TaskTimer milisec={milisec} playTimer={playTimer} onToggleTimer={onToggleTimer} />
+              <TaskTimer done={done} milisec={milisec} playTimer={playTimer} onToggleTimer={onToggleTimer} />
             </span>
             <span className="created">created {formatDistanceToNow(createDate, { includeSeconds: true })} ago</span>
           </label>
