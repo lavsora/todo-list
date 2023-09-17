@@ -51,13 +51,13 @@ class Task extends Component {
       <>
         <div className="view">
           <input className="toggle" type="checkbox" checked={done} onChange={onToggleStatus} />
-          <label>
+          <div className="view-content">
             <span className="title">{description}</span>
             <span className="description">
               <TaskTimer done={done} milisec={milisec} playTimer={playTimer} onToggleTimer={onToggleTimer} />
             </span>
             <span className="created">{formatDistanceToNow(createDate, { includeSeconds: true })}</span>
-          </label>
+          </div>
           <button type="button" className="icon icon-edit" onClick={onEdit} disabled={done} />
           <button type="button" className="icon icon-destroy" onClick={onDeleted} />
         </div>

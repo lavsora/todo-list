@@ -15,6 +15,7 @@ class TaskList extends PureComponent {
         <li key={id} className={status}>
           <Task
             {...itemProps}
+            id={id}
             onDeleted={() => onDeleted(id)}
             onToggleStatus={() => onToggleStatus(id)}
             onEdit={() => onEdit(id)}
