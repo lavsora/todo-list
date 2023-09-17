@@ -75,6 +75,8 @@
 }
 
 .todo-list li label .description {
+  display: flex;
+  align-items: baseline;
   font-size: 13px;
   color: gray;
 }
@@ -130,19 +132,33 @@
   content: '✎';
 }
 
-.todo-list li .icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+.todo-list li .icon-edit:disabled {
+  cursor: default;
+  color: gray;
+}
+
+.todo-list li .svg-icon {
+  font-size: 16px;
+  height: 12px;
+  margin-right: 3px;
   cursor: pointer;
 }
 
-#icon-color {
+#icon-color-active {
   transition: fill 0.2s ease-out;
 }
 
-#icon-color:hover {
+#icon-color-disabled {
+  cursor: default;
+  fill: #808080;
+}
+
+#icon-color-active:hover {
   fill: #af5b5e;
+}
+
+.todo-list li .timer-text {
+  text-decoration: line-through;
 }
 
 .todo-list li .edit {

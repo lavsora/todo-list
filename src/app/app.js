@@ -72,9 +72,10 @@ class App extends Component {
   }
 
   removeItem = (id) => {
-    this.setState(({ data }) => ({
-      data: data.filter((item) => item.id !== id),
-    }))
+    // eslint-disable-next-line
+    const removeData = this.state.data.filter((item) => item.id !== id)
+
+    this.setState({ data: removeData })
   }
 
   addItem = ({ description, min, sec }) => {
@@ -98,46 +99,52 @@ class App extends Component {
   }
 
   removeCompleted = () => {
-    this.setState(({ data }) => ({
-      data: data.filter((item) => item.status !== 'completed'),
-    }))
+    // eslint-disable-next-line
+    const removeData = this.state.data.filter((item) => item.status !== 'completed')
+
+    this.setState({ data: removeData })
   }
 
   toggleStatus = (id) => {
-    this.setState(({ data }) => ({
-      data: data.map((item) => {
-        if (item.id === id) {
-          return { ...item, done: !item.done, status: item.done ? 'active ' : 'completed' }
-        }
+    // eslint-disable-next-line
+    const toggleData = this.state.data.map((item) => {
+      if (item.id === id) {
+        return { ...item, done: !item.done, status: item.done ? 'active ' : 'completed', playTimer: false }
+      }
 
-        return item
-      }),
-    }))
+      return item
+    })
+
+    this.toggleTimer(id)
+
+    this.setState({ data: toggleData })
   }
 
   editItem = (id) => {
-    this.setState(({ data }) => ({
-      data: data.map((item) => {
-        if (item.id === id) {
-          return { ...item, status: 'editing' }
-        }
+    // eslint-disable-next-line
+    const toggleData = this.state.data.map((item) => {
+      if (item.id === id) {
+        return { ...item, status: 'editing' }
+      }
 
-        return item
-      }),
-    }))
+      return item
+    })
+
+    this.setState({ data: toggleData })
   }
 
   closeEdit = (e) => {
     if (e.keyCode === 27 || !e.target.classList.contains('edit')) {
-      this.setState(({ data }) => ({
-        data: data.map((item) => {
-          if (item.status === 'editing') {
-            return { ...item, status: item.done ? 'completed ' : 'active' }
-          }
+      // eslint-disable-next-line
+      const editingData = this.state.data.map((item) => {
+        if (item.status === 'editing') {
+          return { ...item, status: item.done ? 'completed ' : 'active' }
+        }
 
-          return item
-        }),
-      }))
+        return item
+      })
+
+      this.setState({ data: editingData })
     }
   }
 
@@ -157,20 +164,19 @@ class App extends Component {
   }
 
   editDescriptionItem = (editDescription, id) => {
-    this.setState(({ data }) => ({
-      data: data.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            description: editDescription,
-            done: false,
-            status: 'active ',
-          }
+    // eslint-disable-next-line
+    const updateDescription = this.state.data.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          description: editDescription,
+          status: 'active ',
         }
+      }
 
-        return item
-      }),
-    }))
+      return item
+    })
+    this.setState({ data: updateDescription })
   }
 
   toggleTimer = (id) => {
@@ -187,6 +193,15 @@ class App extends Component {
           this.setState(({ data }) => ({
             data: data.map((task) => {
               if (task.id === id) {
+                if (task.done) {
+                  clearInterval(itemInterval)
+
+                  return {
+                    ...task,
+                    playTimer: false,
+                  }
+                }
+
                 if (task.milisec - 1000 <= 0) {
                   clearInterval(itemInterval)
 
@@ -198,9 +213,12 @@ class App extends Component {
                     status: 'completed',
                   }
                 }
-                return {
-                  ...task,
-                  milisec: task.milisec - 1000,
+
+                if (task.playTimer) {
+                  return {
+                    ...task,
+                    milisec: task.milisec - 1000,
+                  }
                 }
               }
 
@@ -215,9 +233,7 @@ class App extends Component {
       return { ...item, playTimer: !item.playTimer }
     })
 
-    this.setState({
-      data: updatedTimer,
-    })
+    this.setState({ data: updatedTimer })
   }
 
   render() {
