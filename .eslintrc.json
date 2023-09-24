@@ -54,11 +54,13 @@
       {
         "custom": "ignore"
       }
-      
     ],
-    "react/function-component-definition": [1, {
-      "namedComponents": "arrow-function"
-    }],
+    "react/function-component-definition": [
+      1,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
     "react/destructuring-assignment": 0,
     "class-methods-use-this": 0,
     "jsx-a11y/label-has-associated-control": 0,
