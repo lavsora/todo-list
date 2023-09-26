@@ -1,75 +1,61 @@
-import { Component } from 'react'
+import { useState } from 'react'
 
 import './new-task-form.css'
 
-class NewTaskForm extends Component {
-  state = {
-    description: '',
-    min: '',
-    sec: '',
-  }
+const NewTaskForm = ({ onAdded }) => {
+  const [description, setDescription] = useState('')
+  const [min, setMin] = useState('')
+  const [sec, setSec] = useState('')
 
-  onChangeInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  onSubmitDescription = (e) => {
+  const onSubmitDescription = (e) => {
     e.preventDefault()
 
-    this.setState(({ description }) => ({
-      description: description.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''),
-    }))
+    setDescription(description.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''))
 
-    if (this.state.description.trim() !== '') {
-      this.props.onAdded(this.state)
+    if (description.trim() !== '') {
+      onAdded({ description, min, sec })
 
-      this.setState({
-        description: '',
-        min: '',
-        sec: '',
-      })
+      setDescription('')
+      setMin('')
+      setSec('')
     }
   }
 
-  render() {
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form className="new-todo-form" onSubmit={this.onSubmitDescription}>
-          <input
-            className="new-todo"
-            name="description"
-            placeholder="What needs to be done?"
-            onChange={this.onChangeInput}
-            value={this.state.description}
-            required
-          />
-          <input
-            className="new-todo-form__timer"
-            name="min"
-            value={this.state.min}
-            onChange={this.onChangeInput}
-            pattern="^(?:[0-9]|[0-5][0-9]|60)$"
-            placeholder="Min"
-            required
-          />
-          <input
-            className="new-todo-form__timer"
-            name="sec"
-            value={this.state.sec}
-            onChange={this.onChangeInput}
-            pattern="^(?:[1-9]|[1-5][0-9]|60)$"
-            placeholder="Sec"
-            required
-          />
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form className="new-todo-form" onSubmit={onSubmitDescription}>
+        <input
+          className="new-todo"
+          name="description"
+          placeholder="What needs to be done?"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+          required
+        />
+        <input
+          className="new-todo-form__timer"
+          name="min"
+          value={min}
+          onChange={(e) => setMin(e.target.value)}
+          pattern="^(?:[0-9]|[0-5][0-9]|60)$"
+          placeholder="Min"
+          required
+        />
+        <input
+          className="new-todo-form__timer"
+          name="sec"
+          value={sec}
+          onChange={(e) => setSec(e.target.value)}
+          pattern="^(?:[1-9]|[1-5][0-9]|60)$"
+          placeholder="Sec"
+          required
+        />
 
-          <button type="submit" />
-        </form>
-      </header>
-    )
-  }
+        <button type="submit" />
+      </form>
+    </header>
+  )
 }
 
 export default NewTaskForm

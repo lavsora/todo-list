@@ -1,5 +1,3 @@
-import React from 'react'
-
 const IconPlay = ({ done }) => (
   <svg className="svg-icon" viewBox="0 0 11 14" version="1.1" xmlns="http://www.w3.org/2000/svg">
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

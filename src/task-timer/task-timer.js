@@ -1,4 +1,3 @@
-import React from 'react'
 import { intervalToDuration } from 'date-fns'
 
 import Icon from '../icon/icon'
@@ -12,7 +11,6 @@ const TaskTimer = ({ playTimer, milisec, done, onToggleTimer }) => {
 
   const captureEvent = (e) => {
     e.stopPropagation()
-    e.preventDefault()
 
     onToggleTimer()
   }
