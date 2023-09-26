@@ -58,6 +58,7 @@ const App = () => {
   const [maxId, setMaxId] = useState(Math.floor(Math.random() * 1001))
   const [filter, setFilter] = useState('All')
   const [idTimer, setIdTimer] = useState(0)
+  const [timerStatus, setTimerStatus] = useState(false)
 
   let intervalsRef = useRef(null)
 
@@ -76,23 +77,23 @@ const App = () => {
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', closeEdit)
-    document.addEventListener('mousedown', closeEdit)
-  })
+    console.log('ус эффект')
+    delete intervalsRef[idTimer]
 
-  useEffect(() => {
     setData((prevData) =>
       prevData.map((item) => {
         clearInterval(intervalsRef[idTimer])
 
         delete intervalsRef[idTimer]
 
-        if (!item.playTimer) {
+        if (item.playTimer) {
           const itemInterval = setInterval(() => {
             setData((prevState) =>
               prevState.map((task) => {
                 if (task.id === idTimer) {
+                  console.log('id совпадает')
                   if (task.done) {
+                    console.log('task done')
                     clearInterval(itemInterval)
 
                     return {
@@ -102,6 +103,7 @@ const App = () => {
                   }
 
                   if (task.milisec <= 0) {
+                    console.log('< 0')
                     clearInterval(itemInterval)
 
                     return {
@@ -114,6 +116,7 @@ const App = () => {
                   }
 
                   if (task.playTimer) {
+                    console.log('milisec - 1000')
                     return {
                       ...task,
                       milisec: task.milisec - 1000,
@@ -132,15 +135,21 @@ const App = () => {
         return item
       })
     )
+    console.log(intervalsRef)
 
     return () => {
       clearInterval(intervalsRef[idTimer])
     }
-  }, [idTimer])
+  }, [timerStatus])
 
-  useEffect(() => () => {
-    document.removeEventListener('keydown', closeEdit)
-    document.removeEventListener('mousedown', closeEdit)
+  useEffect(() => {
+    document.addEventListener('keydown', closeEdit)
+    document.addEventListener('mousedown', closeEdit)
+
+    return () => {
+      document.removeEventListener('keydown', closeEdit)
+      document.removeEventListener('mousedown', closeEdit)
+    }
   })
 
   const removeItem = (id) => {
@@ -168,6 +177,8 @@ const App = () => {
   }
 
   const toggleTimer = (id) => {
+    setIdTimer(id)
+
     setData((prevData) =>
       prevData.map((item) => {
         if (item.id === id) return { ...item, playTimer: !item.playTimer }
@@ -176,7 +187,7 @@ const App = () => {
       })
     )
 
-    setIdTimer(id)
+    setTimerStatus(!timerStatus)
   }
 
   const toggleStatus = (id) => {
