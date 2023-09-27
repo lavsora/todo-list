@@ -85,13 +85,13 @@ const App = () => {
     delete intervalsRef.current[idTimer]
 
     const timerInterval = setInterval(() => {
-      intervalsRef.current = { [idTimer]: timerInterval }
       setData((prevState) =>
         prevState.map((timer) => {
           if (timer.id === idTimer) {
+            intervalsRef.current = { [idTimer]: timerInterval, ...intervalsRef.current }
+
             if (timer.playTimer) {
               if (timer.done) {
-                console.log('task done')
                 clearInterval(timerInterval)
 
                 return {
@@ -101,7 +101,6 @@ const App = () => {
               }
 
               if (timer.milisec <= 0) {
-                console.log('< 0')
                 clearInterval(timerInterval)
 
                 return {
