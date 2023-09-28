@@ -18,20 +18,26 @@ const Task = ({
   const [editDescription, setEditDescription] = useState(description)
 
   const closeEditSaveDescription = (e) => {
-    if (e.keyCode === 27 || !e.target.classList.contains('edit')) {
+    if (e.keyCode === 27) {
+      setEditDescription(description)
+    }
+  }
+
+  const onCloseEditSaveDescription = (e) => {
+    if (!e.target.classList.contains('edit')) {
       setEditDescription(description)
     }
   }
 
   useEffect(() => {
     document.addEventListener('keydown', closeEditSaveDescription)
-    document.addEventListener('click', closeEditSaveDescription)
+    document.addEventListener('click', onCloseEditSaveDescription)
 
     return () => {
       document.removeEventListener('keydown', closeEditSaveDescription)
-      document.removeEventListener('click', closeEditSaveDescription)
+      document.removeEventListener('click', onCloseEditSaveDescription)
     }
-  }, [editDescription])
+  })
 
   const onChangeDescription = (e) => {
     setEditDescription(e.target.value)

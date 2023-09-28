@@ -57,202 +57,46 @@ const App = () => {
 
   const [maxId, setMaxId] = useState(Math.floor(Math.random() * 1001))
   const [filter, setFilter] = useState('All')
-  const [idTimer, setIdTimer] = useState(0)
-  const [timerStatus, setTimerStatus] = useState(false)
 
   const intervalsRef = useRef({})
 
-  const closeEdit = (e) => {
-    if (e.keyCode === 27 || !e.target.classList.contains('edit')) {
-      setData((prevState) =>
-        prevState.map((item) => {
-          if (item.status === 'editing') {
-            return { ...item, status: 'active' }
-          }
-
-          return item
-        })
-      )
-    }
-  }
-
   useEffect(() => {
-    document.addEventListener('keydown', closeEdit)
-    document.addEventListener('mousedown', closeEdit)
-
-    clearInterval(intervalsRef.current[idTimer])
-
-    delete intervalsRef.current[idTimer]
-
-    const timerInterval = setInterval(() => {
-      setData((prevState) =>
-        prevState.map((timer) => {
-          if (timer.id === idTimer) {
-            intervalsRef.current = { [idTimer]: timerInterval, ...intervalsRef.current }
-
-            if (timer.playTimer) {
-              if (timer.done) {
-                clearInterval(timerInterval)
-
-                return {
-                  ...timer,
-                  playTimer: false,
-                }
-              }
-
-              if (timer.milisec <= 0) {
-                clearInterval(timerInterval)
-
-                return {
-                  ...timer,
-                  milisec: 0,
-                  playTimer: false,
-                  done: true,
-                  status: 'completed',
-                }
-              }
-
-              return {
-                ...timer,
-                milisec: timer.milisec - 1000,
-              }
+    const closeEdit = (e) => {
+      if (e.keyCode === 27) {
+        setData((prevState) =>
+          prevState.map((item) => {
+            if (item.status === 'editing') {
+              return { ...item, status: 'active' }
             }
-          }
 
-          return timer
-        })
-      )
-    }, 1000)
+            return item
+          })
+        )
+      }
+    }
 
-    console.log(intervalsRef)
+    const onCloseEdit = (e) => {
+      if (!e.target.classList.contains('edit')) {
+        setData((prevState) =>
+          prevState.map((item) => {
+            if (item.status === 'editing') {
+              return { ...item, status: 'active' }
+            }
 
-    // data.map((item) => {
-    //   clearInterval(intervalsRef[idTimer])
+            return item
+          })
+        )
+      }
+    }
 
-    //   delete intervalsRef[idTimer]
-
-    //   console.log(item.playTimer)
-    //   if(item.id === idTimer) {
-    //     if (item.playTimer) {
-    //       const itemInterval = setInterval(() => {
-    //         setData((prevState) =>
-    //           prevState.map((task) => {
-    //             console.log(`${task.id} ${idTimer}`)
-    //             if (task.id === idTimer) {
-    //               console.log('id совпадает')
-    //               if (task.done) {
-    //                 console.log('task done')
-    //                 clearInterval(itemInterval)
-
-    //                 return {
-    //                   ...task,
-    //                   playTimer: false,
-    //                 }
-    //               }
-
-    //               if (task.milisec <= 0) {
-    //                 console.log('< 0')
-    //                 clearInterval(itemInterval)
-
-    //                 return {
-    //                   ...task,
-    //                   milisec: 0,
-    //                   playTimer: false,
-    //                   done: true,
-    //                   status: 'completed',
-    //                 }
-    //               }
-
-    //               if (task.playTimer) {
-    //                 console.log('milisec - 1000')
-    //                 return {
-    //                   ...task,
-    //                   milisec: task.milisec - 1000,
-    //                 }
-    //               }
-    //             }
-
-    //             return task
-    //           })
-    //         )
-    //       }, 1000)
-
-    //       intervalsRef = { [idTimer]: itemInterval, ...intervalsRef }
-    //     }
-    //   }
-
-    //   return item
-    // })
+    document.addEventListener('keydown', closeEdit)
+    document.addEventListener('mousedown', onCloseEdit)
 
     return () => {
       document.removeEventListener('keydown', closeEdit)
-      document.removeEventListener('mousedown', closeEdit)
+      document.removeEventListener('mousedown', onCloseEdit)
     }
-  }, [timerStatus])
-
-  // useEffect(() => {
-  //   // большая вложенность => два ненужных вызова изменения состояния
-  //   data.map((item) => {
-  //     clearInterval(intervalsRef[idTimer])
-
-  //     delete intervalsRef[idTimer]
-
-  //     console.log(item.playTimer, item.id, idTimer)
-
-  //     if (item.playTimer) {
-  //       const itemInterval = setInterval(() => {
-  //         setData((prevState) =>
-  //           prevState.map((task) => {
-  //             console.log(`${task.id} ${idTimer}`)
-  //             if (task.id === idTimer) {
-  //               console.log('id совпадает')
-  //               if (task.done) {
-  //                 console.log('task done')
-  //                 clearInterval(itemInterval)
-
-  //                 return {
-  //                   ...task,
-  //                   playTimer: false,
-  //                 }
-  //               }
-
-  //               if (task.milisec <= 0) {
-  //                 console.log('< 0')
-  //                 clearInterval(itemInterval)
-
-  //                 return {
-  //                   ...task,
-  //                   milisec: 0,
-  //                   playTimer: false,
-  //                   done: true,
-  //                   status: 'completed',
-  //                 }
-  //               }
-
-  //               if (task.playTimer) {
-  //                 console.log('milisec - 1000')
-  //                 return {
-  //                   ...task,
-  //                   milisec: task.milisec - 1000,
-  //                 }
-  //               }
-  //             }
-
-  //             return task
-  //           })
-  //         )
-  //       }, 1000)
-
-  //       intervalsRef = { [idTimer]: itemInterval, ...intervalsRef }
-  //     }
-
-  //     return item
-  //   })
-
-  //   return () => {
-  //     clearInterval(intervalsRef[idTimer])
-  //   }
-  // }, [timerStatus])
+  })
 
   const removeItem = (id) => {
     setData((prevData) => prevData.filter((item) => item.id !== id))
@@ -279,17 +123,57 @@ const App = () => {
   }
 
   const toggleTimer = (id) => {
-    setIdTimer(id)
+    const updateTimer = data.map((item) => {
+      if (item.id !== id) return item
 
-    setData((prevData) =>
-      prevData.map((item) => {
-        if (item.id === id) return { ...item, playTimer: !item.playTimer }
+      clearInterval(intervalsRef.current[id])
 
-        return item
-      })
-    )
+      delete intervalsRef.current[id]
 
-    setTimerStatus(!timerStatus)
+      const timerInterval = setInterval(() => {
+        setData((prevState) =>
+          prevState.map((timer) => {
+            if (timer.id === id) {
+              if (timer.playTimer) {
+                if (timer.done) {
+                  clearInterval(timerInterval)
+
+                  return {
+                    ...timer,
+                    playTimer: false,
+                  }
+                }
+
+                if (timer.milisec <= 0) {
+                  clearInterval(timerInterval)
+
+                  return {
+                    ...timer,
+                    milisec: 0,
+                    playTimer: false,
+                    done: true,
+                    status: 'completed',
+                  }
+                }
+
+                return {
+                  ...timer,
+                  milisec: timer.milisec - 1000,
+                }
+              }
+            }
+
+            return timer
+          })
+        )
+      }, 1000)
+
+      intervalsRef.current = { [id]: timerInterval, ...intervalsRef.current }
+
+      return { ...item, playTimer: !item.playTimer }
+    })
+
+    setData(updateTimer)
   }
 
   const toggleStatus = (id) => {
@@ -338,6 +222,7 @@ const App = () => {
           return {
             ...item,
             description: editDescription,
+            status: 'active',
           }
         }
 
