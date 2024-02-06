@@ -16,6 +16,7 @@
   },
   "plugins": ["react", "import"],
   "rules": {
+    "no-param-reassign": ["error", { "props": false }],
     "no-shadow": "off",
     "no-console": 1,
     "import/namespace": 0,

@@ -1,8 +1,13 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+
+import { onAddItem } from '../store/todoSlice'
 
 import './new-task-form.css'
 
-const NewTaskForm = ({ onAdded }) => {
+const NewTaskForm = () => {
+  const dispatch = useDispatch()
+
   const [description, setDescription] = useState('')
   const [min, setMin] = useState('')
   const [sec, setSec] = useState('')
@@ -13,7 +18,7 @@ const NewTaskForm = ({ onAdded }) => {
     setDescription(description.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''))
 
     if (description.trim() !== '') {
-      onAdded({ description, min, sec })
+      dispatch(onAddItem({ description, min, sec }))
 
       setDescription('')
       setMin('')

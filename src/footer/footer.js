@@ -1,15 +1,25 @@
+import { useDispatch, useSelector } from 'react-redux'
+
+import { onRemoveCompleted } from '../store/todoSlice'
 import TasksFilter from '../tasks-filter'
 
 import './footer.css'
 
-const Footer = ({ countTodo, onDeleted, filter, onFilter }) => (
-  <footer className="footer">
-    <span className="todo-count">{countTodo > 1 ? `${countTodo} items` : `${countTodo} item`} left</span>
-    <TasksFilter filter={filter} onFilter={(label) => onFilter(label)} />
-    <button type="button" className="clear-completed" onClick={onDeleted}>
-      Clear completed
-    </button>
-  </footer>
-)
+const Footer = () => {
+  const dispatch = useDispatch()
+  const data = useSelector((state) => state.data.todos)
+
+  const countTodo = data.filter((item) => !item.done).length
+
+  return (
+    <footer className="footer">
+      <span className="todo-count">{countTodo > 1 ? `${countTodo} items` : `${countTodo} item`} left</span>
+      <TasksFilter />
+      <button type="button" className="clear-completed" onClick={() => dispatch(onRemoveCompleted())}>
+        Clear completed
+      </button>
+    </footer>
+  )
+}
 
 export default Footer
