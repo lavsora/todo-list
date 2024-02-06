@@ -4,7 +4,7 @@ import Task from '../task'
 
 import './task-list.css'
 
-const TaskList = ({ onToggleTimer }) => {
+const TaskList = () => {
   const data = useSelector((state) => state.data.todos)
   const keyFilter = useSelector((state) => state.data.keyFilter)
 
@@ -26,7 +26,7 @@ const TaskList = ({ onToggleTimer }) => {
 
     return (
       <li key={id} className={status}>
-        <Task {...itemProps} id={id} onToggleTimer={() => onToggleTimer(id)} />
+        <Task {...itemProps} id={id} />
       </li>
     )
   })
