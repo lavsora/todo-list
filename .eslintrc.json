@@ -16,6 +16,8 @@
   },
   "plugins": ["react", "import"],
   "rules": {
+    "no-param-reassign": ["error", { "props": false }],
+    "no-shadow": "off",
     "no-console": 1,
     "import/namespace": 0,
     "import/default": 0,
@@ -53,6 +55,12 @@
       2,
       {
         "custom": "ignore"
+      }
+    ],
+    "react/function-component-definition": [
+      1,
+      {
+        "namedComponents": "arrow-function"
       }
     ],
     "react/destructuring-assignment": 0,
