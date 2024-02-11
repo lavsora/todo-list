@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { onCloseEdit } from '../store/todoSlice'
-import NewTaskForm from '../new-task-form'
-import TaskList from '../task-list'
-import Footer from '../footer'
 
-import './app.css'
+import './main.css'
+import { onCloseEdit } from '../../store/slice/todo.slice'
+import NewTaskForm from '../../new-task-form'
+import Footer from '../../footer'
+import TaskList from '../../task-list'
 
-const App = () => {
+const Main = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const App = () => {
   )
 }
 
-export default App
+export default Main

@@ -1,6 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import clsx from 'clsx'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { onFilterSelect } from '../store/todoSlice'
+import { onFilterSelect } from '../store/slice/todo.slice'
 
 import './tasks-filter.css'
 
@@ -14,7 +16,7 @@ const TasksFilter = () => {
     <li key={label}>
       <button
         type="button"
-        className={label === filter ? 'selected' : ''}
+        className={clsx(label === filter && 'selected')}
         onClick={() => dispatch(onFilterSelect({ label }))}
       >
         {label}

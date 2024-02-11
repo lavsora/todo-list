@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { useDispatch } from 'react-redux'
 
-import { onRemoveItem, onToggleStatus, onEditItem, onEditDescriptionItem } from '../store/todoSlice'
+import { onRemoveItem, onToggleStatus, onEditItem, onEditDescriptionItem } from '../store/slice/todo.slice'
 import TaskTimer from '../task-timer'
+import { REGEX, REGEX_2 } from '../common/constants'
 
 const Task = ({ id, description, done, playTimer, milisec, createDate, onToggleTimer }) => {
   const dispatch = useDispatch()
@@ -38,11 +39,11 @@ const Task = ({ id, description, done, playTimer, milisec, createDate, onToggleT
   const onSubmitEditDescription = (e) => {
     e.preventDefault()
 
-    setEditDescription(editDescription.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''))
+    setEditDescription(editDescription.replace(REGEX, ' ').replace(REGEX_2, ''))
 
-    if (editDescription.trim() !== '') {
-      dispatch(onEditDescriptionItem({ editDescription, id }))
-    }
+    if (!editDescription.trim()) return
+
+    dispatch(onEditDescriptionItem({ editDescription, id }))
   }
 
   return (

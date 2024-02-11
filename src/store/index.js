@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import todoReducer from './todoSlice'
+import todoReducer from './slice/todo.slice'
 
 export default configureStore({
   reducer: {

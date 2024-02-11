@@ -21,17 +21,15 @@ const TaskList = () => {
 
   const visibleData = filterData(data, keyFilter)
 
-  const items = visibleData.map((item) => {
-    const { id, status, ...itemProps } = item
-
-    return (
-      <li key={id} className={status}>
-        <Task {...itemProps} id={id} />
-      </li>
-    )
-  })
-
-  return <ul className="todo-list">{items}</ul>
+  return (
+    <ul className="todo-list">
+      {visibleData.map(({ id, status, ...itemProps }) => (
+        <li key={id} className={status}>
+          <Task {...itemProps} id={id} />
+        </li>
+      ))}
+    </ul>
+  )
 }
 
 export default TaskList

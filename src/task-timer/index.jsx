@@ -1,8 +1,11 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import clsx from 'clsx'
+// не хочу тут в конфигурации копаться вашего линта)
 import { intervalToDuration } from 'date-fns'
 import { useDispatch } from 'react-redux'
 import { useEffect, useRef } from 'react'
 
-import { onTimerChange } from '../store/todoSlice'
+import { onTimerChange } from '../store/slice/todo.slice'
 import Icon from '../icon/icon'
 
 const TaskTimer = ({ playTimer, milisec, done, id }) => {
@@ -12,39 +15,21 @@ const TaskTimer = ({ playTimer, milisec, done, id }) => {
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
-      if (playTimer) {
-        if (done) {
-          clearInterval(timerInterval)
+      if (!playTimer || done || !!milisecRef.current) {
+        clearInterval(timerInterval)
 
-          dispatch(onTimerChange({ playTimer: false, id }))
+        const newTimerData = done
+          ? { playTimer: false, id, milisec: 0, done: true, status: 'completed' }
+          : { id, milisec: milisecRef.current, playTimer: true }
 
-          return
-        }
-
-        if (milisecRef.current === 0) {
-          clearInterval(timerInterval)
-
-          dispatch(
-            onTimerChange({
-              playTimer: false,
-              id,
-              milisec: 0,
-              done: true,
-              status: 'completed',
-            })
-          )
-
-          return
-        }
-
+        dispatch(onTimerChange(newTimerData))
+      } else {
         milisecRef.current -= 1000
-
-        dispatch(onTimerChange({ id, milisec: milisecRef.current, playTimer: true }))
       }
     }, 1000)
 
     return () => clearInterval(timerInterval)
-  }, [playTimer])
+  }, [playTimer, done])
 
   const duration = intervalToDuration({ start: 0, end: milisec })
 
@@ -63,7 +48,7 @@ const TaskTimer = ({ playTimer, milisec, done, id }) => {
       <button type="button" onMouseDown={captureEvent} disabled={done}>
         <Icon playTimer={playTimer} done={done} />
       </button>
-      <span className={done ? 'timer-text' : ''}>{time}</span>
+      <span className={clsx(done && 'timer-text')}>{time}</span>
     </>
   )
 }

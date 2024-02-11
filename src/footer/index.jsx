@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { onRemoveCompleted } from '../store/todoSlice'
+import { onRemoveCompleted } from '../store/slice/todo.slice'
 import TasksFilter from '../tasks-filter'
 
 import './footer.css'

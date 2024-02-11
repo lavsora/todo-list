@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { onAddItem } from '../store/todoSlice'
-
+import { onAddItem } from '../store/slice/todo.slice'
 import './new-task-form.css'
+import { REGEX, REGEX_2 } from '../common/constants'
 
 const NewTaskForm = () => {
   const dispatch = useDispatch()
@@ -15,7 +15,7 @@ const NewTaskForm = () => {
   const onSubmitDescription = (e) => {
     e.preventDefault()
 
-    setDescription(description.replace(/\s{2,}/g, ' ').replace(/^[\s]+|[\s]+$/g, ''))
+    setDescription(description.replace(REGEX, ' ').replace(REGEX_2, ''))
 
     if (description.trim() !== '') {
       dispatch(onAddItem({ description, min, sec }))
